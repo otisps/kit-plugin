@@ -1,0 +1,6 @@
+name: KitPlugin
+version: '${project.version}'
+main: me.otisps.kitplugin.KitPlugin
+api-version: 1.18
+authors: [ otisps ]
+description: Kit plugin that allows players to capture their whole inventory and save it as a personal kit for use in practising crystal kitpvp
