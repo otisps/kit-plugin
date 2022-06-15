@@ -21,6 +21,6 @@ public class HelpCommand implements SubCommand {
 
     @Override
     public void perform(CommandSender sender, String[] args) {
-        //TODO: Help Command
+        //TODO: Message based on all the usages and description
     }
 }
