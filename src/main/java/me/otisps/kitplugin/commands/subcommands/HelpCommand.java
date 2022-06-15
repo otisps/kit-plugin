@@ -23,6 +23,6 @@ public class HelpCommand implements SubCommand {
     @Override
     public void perform(CommandSender sender, String[] args) {
         //TODO: Message based on all the usages and description
-        sender.sendMessage(MessageFactory.formatMessage("&6Poop,"));
+        sender.sendMessage(MessageFactory.formatMessage("&6Poop,", ""));
     }
 }

@@ -50,7 +50,6 @@ public final class KitPlugin extends JavaPlugin {
         instance = this;
         System.out.println("[KitPlugin] Kit Plugin Enabled ...");
         getCommand("kit").setExecutor(new KitCommand());
-
         this.saveDefaultConfig();
         createCustomConfig();
     }

@@ -3,6 +3,7 @@ package me.otisps.kitplugin.commands.subcommands;
 import me.otisps.kitplugin.KitPlugin;
 import me.otisps.kitplugin.commands.SubCommand;
 import me.otisps.kitplugin.utils.BukkitSerialization;
+import me.otisps.kitplugin.utils.MessageFactory;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -53,6 +54,7 @@ public class SaveCommand implements SubCommand {
             throw new RuntimeException(e);
         } // Save file
 
-        //TODO: MESSAGE
+        //TODO
+        player.sendMessage(MessageFactory.formatMessage("success", name));
     }
 }

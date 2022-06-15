@@ -1,11 +1,12 @@
-on-load-message: "&7[&6{kit-name}&7] &3Has been loaded..."
-on-save-message: "&7[&6{kit-name}&7] &3Has been Saved..."
-on-delete-message: "&7[&6{kit-name}&7] &3Has been deleted..."
+on-load-message: "&6{kit-name}&7 &3has been loaded..."
+on-save-message: "&6{kit-name}&7 &3has been Saved..."
+on-delete-message: "&6{kit-name}&7 &has been deleted..."
+not-found-message: "6{kit-name}&7 &4was not found!..."
+already-exists-message: "&6{kit-name}&7 &3has already been created, delete first ..."
+console-error-message: "Command targeted usage for players!"
 prefix: "&7[&2Kits&7]"
-bukkit-or-hex-color: bukkit
 # {KIT-NAME} will be replaced with name
 # {PREFIX} will be replaced with prefix
-# {PLAYER-NAME} will be replaced with player display name
-# &2 etc will be replaced with colour if bukkit is chosen,
-# {#FFFFF} etc will be replaced with colour  if hex is chosen...
+# &2 etc. will be replaced with colour if bukkit is chosen,
+# #FFFFF etc. will be replaced with colour  if hex is chosen...
 # please feel free to message otis#7157 at any point into the future if a bug arises, or if you need support.

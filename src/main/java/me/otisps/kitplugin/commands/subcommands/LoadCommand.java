@@ -10,7 +10,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import java.io.IOException;
-import java.util.List;
 
 public class LoadCommand implements SubCommand {
     @Override
@@ -59,7 +58,7 @@ public class LoadCommand implements SubCommand {
 
         player.updateInventory();
 
-        //TODO: MESSAGE
-        player.sendMessage(MessageFactory.formatMessage("success"));
+        //TODO
+        player.sendMessage(MessageFactory.formatMessage("success", name));
     }
 }

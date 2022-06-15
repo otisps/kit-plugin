@@ -2,6 +2,7 @@ package me.otisps.kitplugin.commands.subcommands;
 
 import me.otisps.kitplugin.KitPlugin;
 import me.otisps.kitplugin.commands.SubCommand;
+import me.otisps.kitplugin.utils.MessageFactory;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -37,6 +38,7 @@ public class DeleteCommand implements SubCommand {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        //TODO: MESSAGE
+        //TODO
+        player.sendMessage(MessageFactory.formatMessage("success", name));
     }
 }

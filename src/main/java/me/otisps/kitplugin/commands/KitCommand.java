@@ -32,11 +32,9 @@ public class KitCommand implements CommandExecutor {
 
         if (!(sender instanceof Player)){
             // if sender not a player abort!
-            sender.sendMessage("Player only command!");
+            sender.sendMessage("Player only command!"); // Todo
             return true;
         }
-
-        sender.sendMessage(MessageFactory.formatMessage("partial success"));
         if((args.length == 0)) { // invalid command usage sub command
             subCommands.get(1).perform(sender, args);
             return true;
@@ -52,12 +50,11 @@ public class KitCommand implements CommandExecutor {
 
                 if (args.length == 2) { // valid args
                     subCommand.perform(sender, args);
-                    sender.sendMessage(MessageFactory.formatMessage("success"));
                     return true;
                 }
 
                 //  invalid args
-                sender.sendMessage(subCommand.getUsage()); // TODO: CONFIG
+                sender.sendMessage(subCommand.getUsage()); // TODO
                 return true;
             }
         }

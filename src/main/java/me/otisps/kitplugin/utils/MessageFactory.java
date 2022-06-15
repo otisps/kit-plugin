@@ -1,15 +1,37 @@
 package me.otisps.kitplugin.utils;
 
-import org.bukkit.Bukkit;
+import me.otisps.kitplugin.KitPlugin;
 import org.bukkit.ChatColor;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class MessageFactory {
 
-    public static String formatMessage(String message){
-        message = ChatColor.translateAlternateColorCodes('&', message);
-        // TODO : SEE IF BUKKIT OR HEX
-        // TODO : TRANSLATE HEX
-        // TODO : REPLACE SPECIAL SHITE
+    private static final Pattern hexPattern = Pattern.compile("#[a-fA-F0-9]{6}");
+
+    public static String formatMessage(String message, String kitName){
+            message = hexFormat(message);
+            message = placeholderReplacer(message, kitName);
         return message;
     }
+
+
+    public static String hexFormat(String message){ // Credit to CodedRed
+        Matcher match = hexPattern.matcher(message);
+        while (match.find()){
+            String colour = message.substring(match.start(), match.end());
+            message = message.replace(colour, ChatColor.valueOf(colour) + "");
+            match = hexPattern.matcher(message);
+        }
+        return ChatColor.translateAlternateColorCodes('&', message);
+    }
+
+    public static String placeholderReplacer(String message, String kitName){
+        message.replace("{KIT-NAME}", kitName);
+        message.replace("{PREFIX}", String.valueOf(KitPlugin.getInstance().getConfig().get("prefix")));
+        return message;
+    }
+
+    // TODO:
 }
