@@ -2,14 +2,15 @@ package me.otisps.kitplugin.commands.subcommands;
 
 import me.otisps.kitplugin.KitPlugin;
 import me.otisps.kitplugin.commands.SubCommand;
+import me.otisps.kitplugin.utils.BukkitSerialization;
+import me.otisps.kitplugin.utils.MessageFactory;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 import java.io.IOException;
-
-import static me.otisps.kitplugin.utils.BukkitSerialization.fromBase64;
-import static me.otisps.kitplugin.utils.BukkitSerialization.itemStackArrayFromBase64;
+import java.util.List;
 
 public class LoadCommand implements SubCommand {
     @Override
@@ -34,21 +35,31 @@ public class LoadCommand implements SubCommand {
         String name = args[1];
         FileConfiguration dataFile = KitPlugin.getInstance().getDataConfig();
 
+        String stringInventory = dataFile.getString(playerUUID + "." + name + ".inventory");
+        String stringArmour = dataFile.getString(playerUUID + "." + name + ".armour");
+
+
+        ItemStack[] inv;
+
         try {
-            player.getInventory().setContents(fromBase64(
-                    dataFile.getString(playerUUID + "." + name + ".inventory"))
-                    .getContents());
+            inv = BukkitSerialization.itemStackArrayFromBase64(stringInventory);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+        ItemStack[] outfit;
+
         try {
-            player.getInventory().setArmorContents(itemStackArrayFromBase64
-                    (dataFile.getString(playerUUID + "." + name + ".armor")));
+            outfit = BukkitSerialization.itemStackArrayFromBase64(stringArmour);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+
+        player.getInventory().setContents(inv);
+        player.getInventory().setArmorContents(outfit);
+
         player.updateInventory();
 
         //TODO: MESSAGE
+        player.sendMessage(MessageFactory.formatMessage("success"));
     }
 }

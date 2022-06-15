@@ -5,7 +5,7 @@ import org.bukkit.ChatColor;
 
 public class MessageFactory {
 
-    public String formatMessage(String message){
+    public static String formatMessage(String message){
         message = ChatColor.translateAlternateColorCodes('&', message);
         // TODO : SEE IF BUKKIT OR HEX
         // TODO : TRANSLATE HEX

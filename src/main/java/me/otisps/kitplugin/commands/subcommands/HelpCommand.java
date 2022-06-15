@@ -1,6 +1,7 @@
 package me.otisps.kitplugin.commands.subcommands;
 
 import me.otisps.kitplugin.commands.SubCommand;
+import me.otisps.kitplugin.utils.MessageFactory;
 import org.bukkit.command.CommandSender;
 
 public class HelpCommand implements SubCommand {
@@ -22,5 +23,6 @@ public class HelpCommand implements SubCommand {
     @Override
     public void perform(CommandSender sender, String[] args) {
         //TODO: Message based on all the usages and description
+        sender.sendMessage(MessageFactory.formatMessage("&6Poop,"));
     }
 }

@@ -4,6 +4,7 @@ import me.otisps.kitplugin.commands.subcommands.DeleteCommand;
 import me.otisps.kitplugin.commands.subcommands.HelpCommand;
 import me.otisps.kitplugin.commands.subcommands.LoadCommand;
 import me.otisps.kitplugin.commands.subcommands.SaveCommand;
+import me.otisps.kitplugin.utils.MessageFactory;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -28,22 +29,39 @@ public class KitCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (!(sender instanceof Player)) return true; // if sender not a player abort!
-        if(!(args.length == 0)) { // if has sub command
-            SubCommand subCommand;
-            String subLabel = args[0];
-            if (names.contains(label)) { // if subcommand exists
+
+        if (!(sender instanceof Player)){
+            // if sender not a player abort!
+            sender.sendMessage("Player only command!");
+            return true;
+        }
+
+        sender.sendMessage(MessageFactory.formatMessage("partial success"));
+        if((args.length == 0)) { // invalid command usage sub command
+            subCommands.get(1).perform(sender, args);
+            return true;
+        }
+
+        SubCommand subCommand;
+        String subLabel = args[0];
+
+        for (String name:
+             names) {
+            if(name.equalsIgnoreCase(subLabel)){
                 subCommand = commandFromString(subLabel);
+
                 if (args.length == 2) { // valid args
                     subCommand.perform(sender, args);
+                    sender.sendMessage(MessageFactory.formatMessage("success"));
                     return true;
                 }
+
                 //  invalid args
                 sender.sendMessage(subCommand.getUsage()); // TODO: CONFIG
                 return true;
             }
         }
-        // invalid command usage sub command
+       // Invalid Sub Command
         subCommands.get(1).perform(sender, args);
         return true;
     }
