@@ -1,10 +1,14 @@
 package me.otisps.kitplugin.commands.subcommands;
 
-import org.bukkit.command.Command;
+import me.otisps.kitplugin.KitPlugin;
+import me.otisps.kitplugin.commands.SubCommand;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
-public class DeleteCommand implements SubCommand{
+import java.io.IOException;
+
+public class DeleteCommand implements SubCommand {
     @Override
     public String getName() {
         return "delete";
@@ -21,10 +25,18 @@ public class DeleteCommand implements SubCommand{
     }
 
     @Override
-    public void perform(CommandSender sender, Command command, String[] args) {
-        // do stuff
+    public void perform(CommandSender sender, String[] args) {
         Player player = (Player) sender;
-        player.sendMessage(getDescription());
+        String playerUUID = player.getUniqueId().toString();
+        String name = args[1];
 
+        FileConfiguration dataFile = KitPlugin.getInstance().getDataConfig();
+        dataFile.set(playerUUID + "." + name, null);
+        try {
+            KitPlugin.getInstance().saveDataConfig(KitPlugin.getInstance().getDataConfigFile(), dataFile);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        //TODO: MESSAGE
     }
 }
