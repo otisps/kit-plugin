@@ -38,7 +38,7 @@ public class DeleteCommand implements SubCommand {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        //TODO
-        player.sendMessage(MessageFactory.formatMessage("success", name));
+
+        MessageFactory.messageSender(sender, "delete-message", name);
     }
 }

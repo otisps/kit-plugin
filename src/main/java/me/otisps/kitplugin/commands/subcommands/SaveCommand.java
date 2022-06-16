@@ -54,7 +54,7 @@ public class SaveCommand implements SubCommand {
             throw new RuntimeException(e);
         } // Save file
 
-        //TODO
-        player.sendMessage(MessageFactory.formatMessage("success", name));
+        MessageFactory.messageSender(sender, "save-message", name);
+
     }
 }

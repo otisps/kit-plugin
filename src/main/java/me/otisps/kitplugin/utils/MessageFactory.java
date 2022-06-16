@@ -2,6 +2,7 @@ package me.otisps.kitplugin.utils;
 
 import me.otisps.kitplugin.KitPlugin;
 import org.bukkit.ChatColor;
+import org.bukkit.command.CommandSender;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -33,5 +34,13 @@ public class MessageFactory {
         return message;
     }
 
-    // TODO:
+    public static void messageSender(CommandSender sender, String path, String kitName){
+        String message = String.valueOf(KitPlugin.getInstance().getConfig().get(path));
+        sender.sendMessage(MessageFactory.formatMessage(message, kitName));
+    }
+
+    public static void messageKitsSender(CommandSender sender, String list){
+        sender.sendMessage(MessageFactory.formatMessage(list, ""));
+    }
+
 }

@@ -58,7 +58,7 @@ public class LoadCommand implements SubCommand {
 
         player.updateInventory();
 
-        //TODO
-        player.sendMessage(MessageFactory.formatMessage("success", name));
+        MessageFactory.messageSender(sender, "load-message", name);
+
     }
 }

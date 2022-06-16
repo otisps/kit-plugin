@@ -1,5 +1,6 @@
 package me.otisps.kitplugin.commands;
 
+import me.otisps.kitplugin.KitPlugin;
 import me.otisps.kitplugin.commands.subcommands.DeleteCommand;
 import me.otisps.kitplugin.commands.subcommands.HelpCommand;
 import me.otisps.kitplugin.commands.subcommands.LoadCommand;
@@ -32,35 +33,56 @@ public class KitCommand implements CommandExecutor {
 
         if (!(sender instanceof Player)){
             // if sender not a player abort!
-            sender.sendMessage("Player only command!"); // Todo
+            MessageFactory.messageSender(sender, "console-error-message", "");
             return true;
         }
-        if((args.length == 0)) { // invalid command usage sub command
-            subCommands.get(1).perform(sender, args);
+        Player player = (Player) sender;
+        if((args.length == 0)) {
+            String[] kits = KitsSearch.search(String.valueOf(player.getUniqueId()));
+            String list = String.valueOf(kits);
+            MessageFactory.messageKitsSender(sender,list);
             return true;
         }
 
         SubCommand subCommand;
         String subLabel = args[0];
 
-        for (String name:
-             names) {
-            if(name.equalsIgnoreCase(subLabel)){
-                subCommand = commandFromString(subLabel);
-
-                if (args.length == 2) { // valid args
-                    subCommand.perform(sender, args);
-                    return true;
+        for (String name: names) { if(name.equalsIgnoreCase(subLabel)){
+            subCommand = commandFromString(subLabel);
+            if (args.length == 2) { // valid args
+                String[] search = KitsSearch.search(String.valueOf(player.getUniqueId()));
+                if (subLabel.equalsIgnoreCase("delete") || subLabel.equalsIgnoreCase("load")) {
+                    boolean found = isKitPresent(args, search);
+                    if (!found) { // Not found!
+                        MessageFactory.messageSender(sender, "not-found-message", name);
+                    }
                 }
-
-                //  invalid args
-                sender.sendMessage(subCommand.getUsage()); // TODO
+                if(subLabel.equalsIgnoreCase("save")){
+                    boolean found = isKitPresent(args, search);
+                    if(found){
+                        MessageFactory.messageSender(sender, "already-exists-message", name);
+                    }
+                }
+                subCommand.perform(sender, args);
                 return true;
             }
-        }
+
+            //  Invalid number of arguments (usage)
+            sender.sendMessage(MessageFactory.hexFormat("&c Error, incorrect usage, proper usage: " + subCommand.getUsage()));
+            return true;
+        }}
        // Invalid Sub Command
         subCommands.get(1).perform(sender, args);
         return true;
+    }
+
+    private boolean isKitPresent(String[] args, String[] search) {
+        boolean found = false;
+        String kitName = args[1];
+        for (String string: search) { if (string.contains(kitName)){
+            found = true;
+        }}
+        return found;
     }
 
     /**
@@ -69,8 +91,7 @@ public class KitCommand implements CommandExecutor {
      * @return subcommand or null if it doesn't exist so check
      */
     public SubCommand commandFromString(String label) {
-            for (String name :
-                    names) {
+            for (String name : names) {
                 if (name.equalsIgnoreCase(label)) {
                     int index = names.indexOf(name);
                     return subCommands.get(index);
