@@ -30,10 +30,10 @@ public class KitCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-
+        MessageFactory messageFactory = new MessageFactory();
         if (!(sender instanceof Player)){
             // if sender not a player abort!
-            MessageFactory.messageSender(sender, "console-error-message");
+            messageFactory.messageSender(sender, "console-error-message");
             return true;
         }
         Player player = (Player) sender;
@@ -47,17 +47,11 @@ public class KitCommand implements CommandExecutor {
         for (String name: names) { if(name.equalsIgnoreCase(subLabel)){
             subCommand = commandFromString(subLabel);
             if (args.length == 2 || subLabel.equalsIgnoreCase("help")) { // valid args
-                if (subLabel.equalsIgnoreCase("delete") || subLabel.equalsIgnoreCase("load")) {
-                    MessageFactory.messageSender(sender, "not-found-message", name);
-                }
-                if(subLabel.equalsIgnoreCase("save")){
-                        MessageFactory.messageSender(sender, "already-exists-message", name);
-                }
                 subCommand.perform(sender, args);
                 return true;
             }
             //  Invalid number of arguments (usage)
-            sender.sendMessage(MessageFactory.hexFormat("&c Error, incorrect usage, proper usage: " + subCommand.getUsage()));
+            sender.sendMessage(messageFactory.hexFormat("&c Error, incorrect usage, proper usage: " + subCommand.getUsage()));
             return true;
         }}
        // Invalid Sub Command
@@ -65,14 +59,6 @@ public class KitCommand implements CommandExecutor {
         return true;
     }
 
-    private boolean isKitPresent(String[] args, String[] search) {
-        boolean found = false;
-        String kitName = args[1];
-        for (String string: search) { if (string.contains(kitName)){
-            found = true;
-        }}
-        return found;
-    }
 
     /**
      * for getting subcommands

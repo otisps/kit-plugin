@@ -1,8 +1,8 @@
-load-message: "&6{KIT-NAME}&7 &3has been loaded..."
-save-message: "&6{KIT-NAME}&7 &3has been Saved..."
-help-message: " {PREFIX} Possible commands include /kit save/load/delete {kit-name}"
-delete-message: "&6{KIT-NAME}&7 &has been deleted..."
-not-found-message: "6{KIT-NAME}&7 &4was not found!..."
+load-message: "&6{KIT-NAME}&3 has been loaded."
+save-message: "&6{KIT-NAME}&3 has been saved."
+help-message: " {PREFIX}&3 Possible commands include '/kit save/load/delete {kit-name}'"
+delete-message: "&6{KIT-NAME}&3 has been deleted..."
+not-found-message: "&6{KIT-NAME}&4 was not found!"
 console-error-message: "Command targeted usage for players!"
 prefix: "&7[&2Kits&7]"
 # {KIT-NAME} will be replaced with name
