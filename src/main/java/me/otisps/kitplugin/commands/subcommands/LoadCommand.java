@@ -2,14 +2,14 @@ package me.otisps.kitplugin.commands.subcommands;
 
 import me.otisps.kitplugin.KitPlugin;
 import me.otisps.kitplugin.commands.SubCommand;
-import me.otisps.kitplugin.utils.BukkitSerialization;
 import me.otisps.kitplugin.utils.MessageFactory;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import java.io.IOException;
+import static me.otisps.kitplugin.utils.FileUtils.getInv;
+import static me.otisps.kitplugin.utils.FileUtils.getOutfit;
 
 public class LoadCommand implements SubCommand {
     @Override
@@ -30,28 +30,12 @@ public class LoadCommand implements SubCommand {
     @Override
     public void perform(CommandSender sender, String[] args) {
         Player player = (Player) sender;
-        String playerUUID = player.getUniqueId().toString();
+        String playerUUID = player.getUniqueId() + "";
         String name = args[1];
         FileConfiguration dataFile = KitPlugin.getInstance().getDataConfig();
 
-        String stringInventory = dataFile.getString(playerUUID + "." + name + ".inventory");
-        String stringArmour = dataFile.getString(playerUUID + "." + name + ".armour");
-
-
-        ItemStack[] inv;
-
-        try {
-            inv = BukkitSerialization.itemStackArrayFromBase64(stringInventory);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        ItemStack[] outfit;
-
-        try {
-            outfit = BukkitSerialization.itemStackArrayFromBase64(stringArmour);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        ItemStack[] inv = getInv(playerUUID, name);
+        ItemStack[] outfit = getOutfit(playerUUID, name);
 
         player.getInventory().setContents(inv);
         player.getInventory().setArmorContents(outfit);
@@ -61,4 +45,8 @@ public class LoadCommand implements SubCommand {
         MessageFactory.messageSender(sender, "load-message", name);
 
     }
+
+
+
+
 }

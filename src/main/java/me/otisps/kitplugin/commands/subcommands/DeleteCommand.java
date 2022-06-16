@@ -29,7 +29,7 @@ public class DeleteCommand implements SubCommand {
     public void perform(CommandSender sender, String[] args) {
         // initialization
         Player player = (Player) sender;
-        String playerUUID = player.getUniqueId().toString();
+        String playerUUID = player.getUniqueId() + "";
         String name = args[1];
         FileConfiguration dataFile = KitPlugin.getInstance().getDataConfig();
 

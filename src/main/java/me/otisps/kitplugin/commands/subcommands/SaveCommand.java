@@ -13,6 +13,8 @@ import org.bukkit.inventory.PlayerInventory;
 import java.io.IOException;
 import java.util.Arrays;
 
+import static me.otisps.kitplugin.utils.FileUtils.dataFileSaver;
+
 public class SaveCommand implements SubCommand {
     @Override
     public String getName() {
@@ -31,30 +33,33 @@ public class SaveCommand implements SubCommand {
 
     @Override
     public void perform(CommandSender sender, String[] args) {
+        //Initialize
         Player player = (Player) sender;
-        String playerUUID = player.getUniqueId().toString();
+        String playerUUID = player.getUniqueId() + "";
         PlayerInventory playerInventory = player.getInventory();
         String name = args[1];
-
         FileConfiguration dataFile = KitPlugin.getInstance().getDataConfig();
 
-        ItemStack[] serializedInventory = playerInventory.getContents();
-        ItemStack[] serializedArmour = playerInventory.getArmorContents();
+        //save inv and armour
+        inventorySaver(playerUUID, playerInventory, name, dataFile);
+        armourSaver(playerUUID, playerInventory, name, dataFile);
 
-        String stringInv = BukkitSerialization.itemStackArrayToBase64(serializedInventory); // Convert that array of ItemStacks to a String
-        String stringArmour = BukkitSerialization.itemStackArrayToBase64(serializedArmour);
+        // save file
+        dataFileSaver(dataFile);
 
-        dataFile.set(playerUUID + "." + name + ".inventory", stringInv);
-        dataFile.set(playerUUID + "." + name + ".armour", stringArmour);
-
-
-        try {
-            KitPlugin.getInstance().saveDataConfig(KitPlugin.getInstance().getDataConfigFile(), dataFile);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        } // Save file
-
+        // msg success
         MessageFactory.messageSender(sender, "save-message", name);
+    }
 
+    private void armourSaver(String playerUUID, PlayerInventory playerInventory, String name, FileConfiguration dataFile) {
+        ItemStack[] serializedArmour = playerInventory.getArmorContents();
+        String stringArmour = BukkitSerialization.itemStackArrayToBase64(serializedArmour);
+        dataFile.set(playerUUID + "." + name + ".armour", stringArmour);
+    }
+
+    private void inventorySaver(String playerUUID, PlayerInventory playerInventory, String name, FileConfiguration dataFile) {
+        ItemStack[] serializedInventory = playerInventory.getContents();
+        String stringInv = BukkitSerialization.itemStackArrayToBase64(serializedInventory); // Convert that array of ItemStacks to a String
+        dataFile.set(playerUUID + "." + name + ".inventory", stringInv);
     }
 }

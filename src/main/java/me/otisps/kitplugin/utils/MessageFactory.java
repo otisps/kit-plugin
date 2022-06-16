@@ -11,9 +11,26 @@ public class MessageFactory {
 
     private static final Pattern hexPattern = Pattern.compile("#[a-fA-F0-9]{6}");
 
+    /***
+     * Formats a message so you can send to a player.
+     * @param message
+     * @param kitName
+     * @return
+     */
     public static String formatMessage(String message, String kitName){
             message = hexFormat(message);
             message = placeholderReplacer(message, kitName);
+        return message;
+    }
+
+    /***
+     * Formats a message so you can send to a player.
+     * @param message
+     * @return
+     */
+    public static String formatMessage(String message){
+        message = hexFormat(message);
+        message = placeholderReplacer(message);
         return message;
     }
 
@@ -29,18 +46,30 @@ public class MessageFactory {
     }
 
     public static String placeholderReplacer(String message, String kitName){
-        message.replace("{KIT-NAME}", kitName);
-        message.replace("{PREFIX}", String.valueOf(KitPlugin.getInstance().getConfig().get("prefix")));
+
+       message = placeholderReplacer(message);
+       message = message.replace("{KIT-NAME}", kitName);
         return message;
     }
 
-    public static void messageSender(CommandSender sender, String path, String kitName){
+    public static String placeholderReplacer(String message){
+        String prefix = String.valueOf(KitPlugin.getInstance().getConfig().get("prefix"));
+        message = message.replace("{PREFIX}", prefix);
+        return message;
+    }
+    public static String getMessage(String path){
         String message = String.valueOf(KitPlugin.getInstance().getConfig().get(path));
-        sender.sendMessage(MessageFactory.formatMessage(message, kitName));
+        return message;
+    }
+    public static void messageSender(CommandSender sender, String path, String kitName){
+        String message = formatMessage(getMessage(path), kitName);
+        sender.sendMessage(message);
     }
 
-    public static void messageKitsSender(CommandSender sender, String list){
-        sender.sendMessage(MessageFactory.formatMessage(list, ""));
+    public static void messageSender(CommandSender sender, String path){
+        String message = formatMessage(getMessage(path));
+        sender.sendMessage(message);
     }
+
 
 }

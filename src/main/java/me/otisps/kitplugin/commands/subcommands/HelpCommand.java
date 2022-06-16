@@ -23,6 +23,6 @@ public class HelpCommand implements SubCommand {
 
     @Override
     public void perform(CommandSender sender, String[] args) {
-        MessageFactory.messageSender(sender, "help-message", "");
+        MessageFactory.messageSender(sender, "help-message");
     }
 }
