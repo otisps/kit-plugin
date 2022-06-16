@@ -39,6 +39,7 @@ public class DeleteCommand implements SubCommand {
             throw new RuntimeException(e);
         }
 
+
         MessageFactory.messageSender(sender, "delete-message", name);
     }
 }
