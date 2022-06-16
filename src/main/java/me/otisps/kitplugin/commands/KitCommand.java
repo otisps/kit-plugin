@@ -30,10 +30,9 @@ public class KitCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        MessageFactory messageFactory = new MessageFactory();
         if (!(sender instanceof Player)){
             // if sender not a player abort!
-            messageFactory.messageSender(sender, "console-error-message");
+            MessageFactory.messageSender(sender, "console-error-message");
             return true;
         }
         Player player = (Player) sender;
@@ -51,7 +50,7 @@ public class KitCommand implements CommandExecutor {
                 return true;
             }
             //  Invalid number of arguments (usage)
-            sender.sendMessage(messageFactory.hexFormat("&c Error, incorrect usage, proper usage: " + subCommand.getUsage()));
+            sender.sendMessage(MessageFactory.hexFormat("&c Error, incorrect usage, proper usage: " + subCommand.getUsage()));
             return true;
         }}
        // Invalid Sub Command

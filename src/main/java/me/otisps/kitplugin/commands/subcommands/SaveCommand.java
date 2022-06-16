@@ -41,25 +41,21 @@ public class SaveCommand implements SubCommand {
         armourSaver(playerUUID, playerInventory, name, dataFile);
 
         // save file
-        FileUtils fileUtils = new FileUtils();
-        fileUtils.dataFileSaver(dataFile);
+        FileUtils.dataFileSaver(dataFile);
 
         // msg success
-        MessageFactory messageFactory = new MessageFactory();
-        messageFactory.messageSender(sender, "save-message", name);
+        MessageFactory.messageSender(sender, "save-message", name);
     }
 
     private void armourSaver(String playerUUID, PlayerInventory playerInventory, String name, FileConfiguration dataFile) {
         ItemStack[] serializedArmour = playerInventory.getArmorContents();
-        BukkitSerialization bukkitSerialization = new BukkitSerialization();
-        String stringArmour = bukkitSerialization.itemStackArrayToBase64(serializedArmour);
+        String stringArmour = BukkitSerialization.itemStackArrayToBase64(serializedArmour);
         dataFile.set(playerUUID + "." + name + ".armour", stringArmour);
     }
 
     private void inventorySaver(String playerUUID, PlayerInventory playerInventory, String name, FileConfiguration dataFile) {
         ItemStack[] serializedInventory = playerInventory.getContents();
-        BukkitSerialization bukkitSerialization = new BukkitSerialization();
-        String stringInv = bukkitSerialization.itemStackArrayToBase64(serializedInventory); // Convert that array of ItemStacks to a String
+        String stringInv = BukkitSerialization.itemStackArrayToBase64(serializedInventory); // Convert that array of ItemStacks to a String
         dataFile.set(playerUUID + "." + name + ".inventory", stringInv);
     }
 }

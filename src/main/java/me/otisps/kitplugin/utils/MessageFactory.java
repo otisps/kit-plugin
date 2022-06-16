@@ -9,7 +9,7 @@ import java.util.regex.Pattern;
 
 public class MessageFactory {
 
-    private final Pattern hexPattern = Pattern.compile("#[a-fA-F0-9]{6}");
+    private final static Pattern hexPattern = Pattern.compile("#[a-fA-F0-9]{6}");
 
     /***
      * Formats a message so you can send to a player.
@@ -17,7 +17,7 @@ public class MessageFactory {
      * @param kitName
      * @return
      */
-    public String formatMessage(String message, String kitName){
+    public static String formatMessage(String message, String kitName){
             message = hexFormat(message);
             message = placeholderReplacer(message, kitName);
         return message;
@@ -28,14 +28,14 @@ public class MessageFactory {
      * @param message
      * @return
      */
-    public String formatMessage(String message){
+    public static String formatMessage(String message){
         message = hexFormat(message);
         message = placeholderReplacer(message);
         return message;
     }
 
 
-    public String hexFormat(String message){ // Credit to CodedRed
+    public static String hexFormat(String message){ // Credit to CodedRed
         Matcher match = hexPattern.matcher(message);
         while (match.find()){
             String colour = message.substring(match.start(), match.end());
@@ -45,28 +45,27 @@ public class MessageFactory {
         return ChatColor.translateAlternateColorCodes('&', message);
     }
 
-    public String placeholderReplacer(String message, String kitName){
-
+    public static String placeholderReplacer(String message, String kitName){
        message = placeholderReplacer(message);
        message = message.replace("{KIT-NAME}", kitName);
         return message;
     }
 
-    public String placeholderReplacer(String message){
+    public static String placeholderReplacer(String message){
         String prefix = String.valueOf(KitPlugin.getInstance().getConfig().get("prefix"));
         message = message.replace("{PREFIX}", formatMessage(prefix));
         return message;
     }
-    public String getMessage(String path){
+    public static String getMessage(String path){
         String message = String.valueOf(KitPlugin.getInstance().getConfig().get(path));
         return message;
     }
-    public void messageSender(CommandSender sender, String path, String kitName){
+    public static void messageSender(CommandSender sender, String path, String kitName){
         String message = formatMessage(getMessage(path), kitName);
         sender.sendMessage(message);
     }
 
-    public void messageSender(CommandSender sender, String path){
+    public static void messageSender(CommandSender sender, String path){
         String message = formatMessage(getMessage(path));
         sender.sendMessage(message);
     }

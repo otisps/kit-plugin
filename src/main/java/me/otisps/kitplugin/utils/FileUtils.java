@@ -8,30 +8,28 @@ import java.io.IOException;
 
 
 public class FileUtils {
-    private FileConfiguration dataFile = KitPlugin.getInstance().getDataConfig();
+    private static FileConfiguration dataFile = KitPlugin.getInstance().getDataConfig();
 
-    public ItemStack[] getInv(String playerUUID, String name) {
-        BukkitSerialization bukkitSerialization = new BukkitSerialization();
+    public static ItemStack[] getInv(String playerUUID, String name) {
         String stringInventory = dataFile.getString(playerUUID + "." + name + ".inventory");
         ItemStack[] inv;
         try {
-            inv = bukkitSerialization.itemStackArrayFromBase64(stringInventory);
+            inv = BukkitSerialization.itemStackArrayFromBase64(stringInventory);
         } catch (IOException e) {throw new RuntimeException(e);
         }
         return inv;
     }
 
-    public ItemStack[] getOutfit(String playerUUID, String name) {
+    public static ItemStack[] getOutfit(String playerUUID, String name) {
         String stringArmour = dataFile.getString(playerUUID + "." + name + ".armour");
         ItemStack[] outfit;
         try {
-            BukkitSerialization bukkitSerialization = new BukkitSerialization();
-            outfit = bukkitSerialization.itemStackArrayFromBase64(stringArmour);
+            outfit = BukkitSerialization.itemStackArrayFromBase64(stringArmour);
         } catch (IOException e) {throw new RuntimeException(e);}
         return outfit;
     }
 
-    public void dataFileSaver(FileConfiguration dataFile) {
+    public static void dataFileSaver(FileConfiguration dataFile) {
         try {
             KitPlugin.getInstance().saveDataConfig(KitPlugin.getInstance().getDataConfigFile(), dataFile);
         } catch (IOException e) {
