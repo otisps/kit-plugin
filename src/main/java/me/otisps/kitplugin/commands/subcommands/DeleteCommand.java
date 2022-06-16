@@ -27,19 +27,19 @@ public class DeleteCommand implements SubCommand {
 
     @Override
     public void perform(CommandSender sender, String[] args) {
+        // initialization
         Player player = (Player) sender;
         String playerUUID = player.getUniqueId().toString();
         String name = args[1];
-
         FileConfiguration dataFile = KitPlugin.getInstance().getDataConfig();
-        dataFile.set(playerUUID + "." + name, null);
-        try {
+
+        dataFile.set(playerUUID + "." + name, null); // delete kit
+        try { // save kit
             KitPlugin.getInstance().saveDataConfig(KitPlugin.getInstance().getDataConfigFile(), dataFile);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
-
+        // message for success!
         MessageFactory.messageSender(sender, "delete-message", name);
     }
 }
